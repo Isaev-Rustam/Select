@@ -1,4 +1,3 @@
-
 export class Select {
   constructor() {
     this.data = [];
@@ -44,9 +43,17 @@ export class Select {
     }
   }
 
+  clearInputValue() {
+    this.$search.value = "";
+  }
+
   async inputHandler(event) {
     const value = this.$search.value.trim();
-    if (!value) return;
+    if (!value) {
+      this.$dropDown.innerHTML = "";
+      this.clearInputValue();
+      return;
+    }
     const data = await this.getData(value);
     this.$select.classList.add("select--open");
     const arr = data.items.slice(0, 5);
@@ -83,6 +90,7 @@ export class Select {
       }
 
       if (!$list.classList.contains("select__active")) {
+        this.clearInputValue();
         if (this.renderItems.length >= 3) return;
         $list.classList.add("select__active");
         const renderObj = this.data.find(i => i.id == $list.dataset.id);
@@ -108,7 +116,7 @@ export class Select {
 
     this.data.forEach(({id, name,}) => {
 
-      const $dropDownItem = this.#createElement("LI", "select__item", null, {name:"id", id:id});
+      const $dropDownItem = this.#createElement("LI", "select__item", null, {name: "id", id: id});
 
       const $dropDownLink = this.#createElement("A", "select__link", name, null);
 
@@ -126,11 +134,11 @@ export class Select {
 
       const $repoWrap = this.#createElement("DIV", "select__repo-wrap", null);
 
-      const $repoNameItem = this.#createElement("DIV", "select__repo-name",  `Name: ${name}`);
+      const $repoNameItem = this.#createElement("DIV", "select__repo-name", `Name: ${name}`);
 
-      const $repoLoginItem = this.#createElement("DIV", "select__repo-login",  `Owner: ${login}`);
+      const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`);
 
-      const $repoStarItem = this.#createElement("DIV", "select__repo-star",  `Stars: ${star}`);
+      const $repoStarItem = this.#createElement("DIV", "select__repo-star", `Stars: ${star}`);
 
       $repoWrap.insertAdjacentHTML('afterbegin', `<button class="select__btn"  type="button" data-id = ${id}><span></span></button>`)
 
@@ -142,7 +150,7 @@ export class Select {
     this.$repo.append(...$arItems);
   }
 
-  #destroyEvents() {
+  destroyEvents() {
     this.$select.removeEventListener("click", this.clickHandler);
   }
 
