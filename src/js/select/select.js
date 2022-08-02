@@ -121,7 +121,6 @@ export class Select {
 
   #renderDropDown() {
     this.$select.classList.add("select--open");
-    this.#clearInput()
     this.#clearDropDown()
 
     const $listItems = [];
