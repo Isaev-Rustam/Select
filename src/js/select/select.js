@@ -43,39 +43,42 @@ export class Select {
     }
   }
 
-  clearInputValue() {
-    this.$search.value = "";
-  }
 
   async inputHandler(event) {
     const value = this.$search.value.trim();
+
     if (!value) {
-      this.$dropDown.innerHTML = "";
-      this.clearInputValue();
+      this.#clearInput();
+      this.#clearDropDown();
       return;
     }
+
     const data = await this.getData(value);
-    this.$select.classList.add("select--open");
-    const arr = data.items.slice(0, 5);
-    this.data = arr;
+    this.data = data;
+
     this.#renderDropDown();
+
   }
+
 
   async getData(token) {
     try {
       const url = `https://api.github.com/search/repositories?q=${token}`;
       const response = await fetch(url);
       const result = await response.json();
-      return result
+      const data = result.items.slice(0, 5);
+      return data
     } catch (error) {
       console.log(error);
     }
   }
 
+
   clickHandler(event) {
     const target = event.target;
     const $list = target.closest("LI");
     const $repoCloseBtn = target.closest("BUTTON");
+
     if ($repoCloseBtn) {
       this.#removeRenderItem($repoCloseBtn);
       this.#renderRepositories();
@@ -83,6 +86,7 @@ export class Select {
     }
 
     if ($list) {
+
       if ($list.classList.contains("select__active")) {
         this.#removeRenderItem($list);
         this.#renderRepositories();
@@ -90,14 +94,20 @@ export class Select {
       }
 
       if (!$list.classList.contains("select__active")) {
-        this.clearInputValue();
+        this.#clearInput();
+        this.#clearDropDown();
+
         if (this.renderItems.length >= 3) return;
+
         $list.classList.add("select__active");
         const renderObj = this.data.find(i => i.id == $list.dataset.id);
         this.renderItems.push(renderObj);
         this.#renderRepositories();
+        return;
       }
+
     }
+
   }
 
   #removeRenderItem($item) {
@@ -110,9 +120,21 @@ export class Select {
     this.renderItems = this.renderItems.filter(i => i.id != $item.dataset.id);
   }
 
-  #renderDropDown() {
-    const $listItems = [];
+
+  #clearInput() {
+    this.$search.value = "";
+  }
+
+  #clearDropDown() {
     this.$dropDown.innerHTML = "";
+  }
+
+  #renderDropDown() {
+    this.$select.classList.add("select--open");
+    this.#clearInput()
+    this.#clearDropDown()
+
+    const $listItems = [];
 
     this.data.forEach(({id, name,}) => {
 
@@ -123,6 +145,7 @@ export class Select {
       $dropDownItem.append($dropDownLink);
       $listItems.push($dropDownItem);
     })
+
     this.$dropDown.append(...$listItems);
   }
 
@@ -132,17 +155,17 @@ export class Select {
 
     this.renderItems.forEach(({id, name, owner: {login}, stargazers_count: star}) => {
 
-      const $repoWrap = this.#createElement("DIV", "select__repo-wrap", null);
+      const $repoWrap = this.#createElement("DIV", "select__repo-wrap", null, null);
 
-      const $repoNameItem = this.#createElement("DIV", "select__repo-name", `Name: ${name}`);
+      const $repoNameItem = this.#createElement("DIV", "select__repo-name", `Name: ${name}`, null);
 
-      const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`);
+      const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`,null);
 
-      const $repoStarItem = this.#createElement("DIV", "select__repo-star", `Stars: ${star}`);
+      const $repoStarItem = this.#createElement("DIV", "select__repo-star", `Stars: ${star}`, null);
 
-      $repoWrap.insertAdjacentHTML('afterbegin', `<button class="select__btn"  type="button" data-id = ${id}><span></span></button>`)
+      const $repoCloseBtn = this.#createElement("BUTTON", "select__btn", null, {name: "id", id: id});
 
-      $repoWrap.append($repoNameItem, $repoLoginItem, $repoStarItem);
+      $repoWrap.append($repoNameItem, $repoLoginItem, $repoStarItem, $repoCloseBtn);
 
       $arItems.push($repoWrap)
     })
@@ -163,3 +186,4 @@ export class Select {
   }
 
 }
+

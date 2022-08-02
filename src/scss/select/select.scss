@@ -76,8 +76,8 @@
     background: #e8be0e;
   }
 
-  &__btn span:after,
-  &__btn span:before {
+  &__btn:after,
+  &__btn:before {
     content: "";
     background: #FF0000;
     position: absolute;
@@ -87,11 +87,11 @@
     left: 50%;
   }
 
-  &__btn span:before {
+  &__btn:before {
     transform: translate(-50%, -50%) rotate(45deg);
   }
 
-  &__btn span:after {
+  &__btn:after {
     transform: translate(-50%, -50%) rotate(-45deg);
   }
 
@@ -101,6 +101,7 @@
       padding: 30px 40px 30px 40px;
     }
   }
+
   @media (min-width: 576px) {
 
     &__wrap {
@@ -170,6 +171,8 @@
   }
 }
 
+
+
 .select {
 
   &__lists {
@@ -192,37 +195,6 @@
   }
 
 }
-
-
-/*.a {
-  background: green;
-  border: none;
-  width: 100px;
-  height: 100px;
-  position: relative;
-
-  &__b {
-  }
-
-  &__b:after,
-  &__b:before {
-    content: "";
-    background: #FF0000;
-    position: absolute;
-    height: 10px;
-    width: 100%;
-    top: 50%;
-    left: 50%;
-  }
-
-  &__b:before {
-    transform: translate(-50%, -50%) rotate(45deg);
-  }
-
-  &__b:after {
-    transform: translate(-50%, -50%) rotate(-45deg);
-  }
-}*/
 
 
 
