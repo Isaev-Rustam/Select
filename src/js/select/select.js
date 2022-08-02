@@ -85,21 +85,17 @@ export class Select {
       return;
     }
 
-    if ($list) {
+    if ($list && !$list.classList.contains("select__active")) {
+      this.#clearInput();
+      this.#clearDropDown();
 
-      if (!$list.classList.contains("select__active")) {
-        this.#clearInput();
-        this.#clearDropDown();
+      if (this.renderItems.length >= 3) return;
 
-        if (this.renderItems.length >= 3) return;
-
-        $list.classList.add("select__active");
-        const renderObj = this.data.find(i => i.id == $list.dataset.id);
-        this.renderItems.push(renderObj);
-        this.#renderRepositories();
-        return;
-      }
-
+      $list.classList.add("select__active");
+      const renderObj = this.data.find(i => i.id == $list.dataset.id);
+      this.renderItems.push(renderObj);
+      this.#renderRepositories();
+      return;
     }
 
   }
@@ -153,7 +149,7 @@ export class Select {
 
       const $repoNameItem = this.#createElement("DIV", "select__repo-name", `Name: ${name}`, null);
 
-      const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`,null);
+      const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`, null);
 
       const $repoStarItem = this.#createElement("DIV", "select__repo-star", `Stars: ${star}`, null);
 
