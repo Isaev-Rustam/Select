@@ -87,12 +87,6 @@ export class Select {
 
     if ($list) {
 
-      if ($list.classList.contains("select__active")) {
-        this.#removeRenderItem($list);
-        this.#renderRepositories();
-        return;
-      }
-
       if (!$list.classList.contains("select__active")) {
         this.#clearInput();
         this.#clearDropDown();
