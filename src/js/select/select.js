@@ -57,7 +57,6 @@ export class Select {
     this.data = data;
 
     this.#renderDropDown();
-
   }
 
 
@@ -85,7 +84,7 @@ export class Select {
       return;
     }
 
-    if ($list && !$list.classList.contains("select__active")) {
+    if ($list) {
       this.#clearInput();
       this.#clearDropDown();
 
@@ -173,6 +172,5 @@ export class Select {
     if (data?.id) $el.dataset[data.name] = data.id;
     return $el;
   }
-
 }
 
