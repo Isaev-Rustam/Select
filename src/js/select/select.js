@@ -101,9 +101,9 @@ export class Select {
 
   #removeRenderItem($item) {
     const listItems = [...this.$dropDown.children];
-    listItems.forEach(i => {
-      if (i.classList.contains("select__active")) {
-        i.classList.remove("select__active");
+    listItems.forEach(el => {
+      if (el.classList.contains("select__active")) {
+        el.classList.remove("select__active");
       }
     })
     this.renderItems = this.renderItems.filter(i => i.id != $item.dataset.id);
@@ -125,9 +125,7 @@ export class Select {
     const $listItems = [];
 
     this.data.forEach(({id, name,}) => {
-
       const $dropDownItem = this.#createElement("LI", "select__item", null, {name: "id", id: id});
-
       const $dropDownLink = this.#createElement("A", "select__link", name, null);
 
       $dropDownItem.append($dropDownLink);
@@ -142,19 +140,13 @@ export class Select {
     const $arItems = [];
 
     this.renderItems.forEach(({id, name, owner: {login}, stargazers_count: star}) => {
-
       const $repoWrap = this.#createElement("DIV", "select__repo-wrap", null, null);
-
       const $repoNameItem = this.#createElement("DIV", "select__repo-name", `Name: ${name}`, null);
-
       const $repoLoginItem = this.#createElement("DIV", "select__repo-login", `Owner: ${login}`, null);
-
       const $repoStarItem = this.#createElement("DIV", "select__repo-star", `Stars: ${star}`, null);
-
       const $repoCloseBtn = this.#createElement("BUTTON", "select__btn", null, {name: "id", id: id});
 
       $repoWrap.append($repoNameItem, $repoLoginItem, $repoStarItem, $repoCloseBtn);
-
       $arItems.push($repoWrap)
     })
 
